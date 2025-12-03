@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roadmap – SkillSwap</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================
+           BLUE HEAVY THEME (Same as index, login, signup)
+           ========================================================== */
+        body {
+            margin: 0;
+            font-family: Poppins, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0A1D37, #0F2B57, #143C74);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        /* Background glowing elements */
+        .bg-circle {
+            position: absolute;
+            width: 330px;
+            height: 330px;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.35;
+            animation: float 7s infinite alternate ease-in-out;
+        }
+
+        .c1 {
+            background: #1E88E5;
+            top: 10%;
+            left: 5%;
+        }
+
+        .c2 {
+            background: #00B0FF;
+            bottom: 12%;
+            right: 10%;
+        }
+
+        .c3 {
+            background: #2979FF;
+            top: 45%;
+            right: 25%;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-45px);
+            }
+        }
+
+        /* Roadmap Card */
+        .roadmap-card {
+            width: 450px;
+            padding: 35px;
+            background: rgba(255, 255, 255, 0.10);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 25px rgba(0, 162, 255, 0.35);
+            animation: fadeIn 1.2s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-bottom: 20px;
+        }
+
+        /* Inputs */
+        select {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.18);
+            color: #fff;
+            border: none;
+            margin-top: 10px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        select option {
+            color: #000;
+        }
+
+        /* Button */
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: 20px;
+            background: #1E88E5;
+            border: none;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        .btn:hover {
+            background: #1565C0;
+            transform: scale(1.03);
+        }
+
+        /* Roadmap Phases */
+        .phase-box {
+            margin-top: 15px;
+            background: rgba(255, 255, 255, 0.10);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: left;
+            border-left: 4px solid #00B0FF;
+        }
+
+        .phase-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .mark-btn {
+            float: right;
+            background: #00B0FF;
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: 7px;
+            cursor: pointer;
+            color: #000;
+        }
+
+        .mark-btn:hover {
+            background: #039be5;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Background Glow -->
+    <div class="bg-circle c1"></div>
+    <div class="bg-circle c2"></div>
+    <div class="bg-circle c3"></div>
+
+    <!-- Main UI Card -->
+    <div class="roadmap-card">
+        <div class="title">AI Skill Roadmap</div>
+        <div class="subtitle">Your personalized learning journey</div>
+
+        <!-- Skill Selection -->
+        <select id="skillSelect">
+            <option value="">Select a Skill</option>
+            <option>Web Development</option>
+            <option>Cybersecurity</option>
+            <option>Data Science</option>
+            <option>Graphic Design</option>
+        </select>
+
+        <!-- Level Selection -->
+        <select id="levelSelect">
+            <option value="">Select Your Level</option>
+            <option>Beginner</option>
+            <option>Intermediate</option>
+            <option>Advanced</option>
+        </select>
+
+        <button class="btn" onclick="generateRoadmap()">Generate Roadmap</button>
+
+        <!-- Roadmap Output -->
+        <div id="roadmapOutput"></div>
+    </div>
+
+    <script>
+        /* =========================================================================
+           SkillSwap – Roadmap Feature (Clean Architecture + Coding Standard)
+           ========================================================================= */
+
+        /**
+         * Generates the roadmap UI based on selected skill and level.
+         * Roadmap is static here but can later be connected to AI.
+         *
+         * @function generateRoadmap
+         * @returns {void}
+         */
+        function generateRoadmap() {
+            const skill = document.getElementById("skillSelect").value;
+            const level = document.getElementById("levelSelect").value;
+            const output = document.getElementById("roadmapOutput");
+
+            /** Validation */
+            if (!skill || !level) {
+                output.innerHTML = "<p style='margin-top:15px;'>⚠ Please select skill and level.</p>";
+                return;
+            }
+
+            /** UI Rendering */
+            output.innerHTML = getRoadmapTemplate();
+        }
+
+        /**
+         * Provides the roadmap HTML template.
+         * (Phases are static placeholders following the requirement)
+         *
+         * @function getRoadmapTemplate
+         * @returns {string} HTML block containing phases
+         */
+        function getRoadmapTemplate() {
+            return `
+                <div class='phase-box'>
+                    <div class='phase-title'>Phase 1: HTML Basics</div>
+                    <span class='mark-btn'>Mark Done</span>
+                </div>
+
+                <div class='phase-box'>
+                    <div class='phase-title'>Phase 2: CSS Foundations</div>
+                    <span class='mark-btn'>Mark Done</span>
+                </div>
+
+                <div class='phase-box'>
+                    <div class='phase-title'>Phase 3: JavaScript Core</div>
+                    <span class='mark-btn'>Mark Done</span>
+                </div>
+            `;
+        }
+    </script>
+
+</body>
+
+</html>

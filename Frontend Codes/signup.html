@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillSwap — Sign Up</title>
+
+    <!-- Google Font -->
+    <link 
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" 
+        rel="stylesheet"
+    />
+
+    <style>
+        :root {
+            --bg-1: #071026;
+            --bg-2: #0b2545;
+            --accent-1: #7c5cff;
+            --accent-2: #00d4ff;
+            --glass: rgba(255, 255, 255, 0.05);
+            --muted: rgba(255, 255, 255, 0.78);
+        }
+
+        /* Base Reset */
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* Background */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--bg-1), var(--bg-2));
+            color: #eaf2ff;
+            position: relative;
+        }
+
+        /* Floating Gradients */
+        body::before,
+        body::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+        }
+
+        body::before {
+            width: 700px;
+            height: 700px;
+            background: radial-gradient(circle, rgba(124, 92, 255, 0.5), transparent);
+            top: -200px;
+            left: -200px;
+        }
+
+        body::after {
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.4), transparent);
+            bottom: -150px;
+            right: -150px;
+        }
+
+        /* Additional Shapes */
+        .shape-1,
+        .shape-2 {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.3;
+        }
+
+        .shape-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 0, 255, 0.3), transparent);
+            top: 10%;
+            right: 5%;
+        }
+
+        .shape-2 {
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 255, 128, 0.3), transparent);
+            bottom: 20%;
+            left: 10%;
+        }
+
+        /* Main Container */
+        .container {
+            position: relative;
+            text-align: center;
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 90%;
+            border-radius: 20px;
+            background: linear-gradient(
+                180deg, 
+                rgba(255, 255, 255, 0.02), 
+                rgba(255, 255, 255, 0.01)
+            );
+            backdrop-filter: blur(10px);
+            box-shadow: 0 30px 80px rgba(2, 6, 23, 0.6);
+            z-index: 1;
+        }
+
+        /* Headings */
+        h1 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 10px rgba(124, 92, 255, 0.5);
+        }
+
+        /* Form layout */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Inputs */
+        input {
+            padding: 14px;
+            border-radius: 12px;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            font-size: 16px;
+            outline: none;
+            color: #ffffff;
+        }
+
+        input::placeholder {
+            color: var(--muted);
+        }
+
+        /* Checkbox */
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: var(--muted);
+            gap: 8px;
+        }
+
+        /* Submit Button */
+        .btn-submit {
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+            color: #061226;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(124, 92, 255, 0.4);
+        }
+
+        /* Links */
+        a {
+            color: var(--accent-1);
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="shape-1"></div>
+    <div class="shape-2"></div>
+
+    <div class="container">
+        <h1>Create Your Account</h1>
+
+        <!-- 
+            JSDoc Placeholder: Used when backend JS validation is added
+        -->
+
+        <form id="signup-form">
+            <input 
+                type="text" 
+                name="full_name" 
+                id="full-name" 
+                placeholder="Full Name" 
+                required 
+            />
+
+            <input 
+                type="email" 
+                name="email" 
+                id="email" 
+                placeholder="Email Address" 
+                required 
+            />
+
+            <input 
+                type="password" 
+                name="password" 
+                id="password" 
+                placeholder="Password" 
+                required 
+            />
+
+            <input 
+                type="text" 
+                name="teach_skills" 
+                id="teach-skills" 
+                placeholder="Skills You Can Teach" 
+                required 
+            />
+
+            <input 
+                type="text" 
+                name="learn_skills" 
+                id="learn-skills" 
+                placeholder="Skills You Want to Learn" 
+                required 
+            />
+
+            <div class="checkbox-container">
+                <input 
+                    type="checkbox" 
+                    name="email_verification" 
+                    id="email-verification" 
+                    required 
+                />
+                <label for="email-verification">Verify email to activate account</label>
+            </div>
+
+            <button type="submit" class="btn-submit">Sign Up</button>
+        </form>
+
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
+</body>
+</html>
