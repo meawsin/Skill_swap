@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillSwap Profile</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#0a1a2f] text-white min-h-screen flex flex-col md:flex-row">
+
+<!-- Sidebar / Navigation -->
+<aside class="md:w-1/4 bg-[#132C4A] p-5 border-r border-orange-400/30 flex-shrink-0">
+  <h1 class="text-2xl font-bold text-orange-400 mb-8">My Profile</h1>
+  <ul class="space-y-4 text-gray-300">
+    <li class="hover:text-orange-400 cursor-pointer">Profile Info</li>
+    <li class="hover:text-orange-400 cursor-pointer">Skills</li>
+    <li class="hover:text-orange-400 cursor-pointer">Availability</li>
+    <li class="hover:text-orange-400 cursor-pointer">Badges</li>
+    <li class="hover:text-orange-400 cursor-pointer">Linked Accounts</li>
+  </ul>
+</aside>
+<nav class="w-full bg-[#132C4A] py-4 px-6 flex justify-end shadow-md border-b border-orange-400/30 fixed top-0 left-0 z-50">
+  <button id="shareFileBtn" 
+    class="px-4 py-2 bg-gray-200 text-black rounded-lg hover:bg-orange-500 hover:text-white transition font-semibold">
+      Upload / Share File
+  </button>
+</nav>
+<!-- Main Content -->
+<main class="flex-1 p-8 overflow-y-auto">
+  <h2 class="text-3xl font-bold text-orange-400 mb-6">Edit Profile</h2>
+
+  <!-- Profile Info -->
+  <section class="mb-8 bg-[#12273F] p-6 rounded-2xl shadow-lg">
+    <h3 class="text-xl font-semibold mb-4">Basic Information</h3>
+    <div class="flex flex-col md:flex-row gap-6">
+
+        
+      <!-- Profile Photo -->
+      <div class="flex flex-col items-center gap-2">
+        <div id="profilePhotoPreview" class="w-28 h-28 bg-gray-500 rounded-full overflow-hidden">
+          <img id="profilePhotoImg" src="" alt="" class="w-full h-full object-cover hidden">
+        </div>
+        <input type="file" id="profilePhoto" class="text-sm text-gray-300" accept="image/*">
+        <p id="photoError" class="text-red-500 text-xs hidden">File too large! Max 2MB.</p>
+      </div>
+      <!-- Info Fields -->
+      <div class="flex-1 space-y-4">
+        <input id="fullName" type="text" placeholder="Full Name" class="w-full px-4 py-2 rounded-lg bg-[#0F2238] focus:ring-2 focus:ring-orange-500 outline-none">
+        <textarea id="bio" placeholder="Short Bio / Interests" class="w-full px-4 py-2 rounded-lg bg-[#0F2238] focus:ring-2 focus:ring-orange-500 outline-none"></textarea>
+        <input id="education" type="text" placeholder="Education / Degree" class="w-full px-4 py-2 rounded-lg bg-[#0F2238] focus:ring-2 focus:ring-orange-500 outline-none">
+        <div>
+          <label class="text-gray-300 text-sm">Upload Resume (PDF)</label>
+          <input type="file" id="resumeUpload" accept=".pdf" class="text-sm text-gray-300 w-full mt-1">
+          <p id="resumeError" class="text-red-500 text-xs hidden">File too large! Max 5MB.</p>
+        </div>
+        <input id="location" type="text" placeholder="Location" class="w-full px-4 py-2 rounded-lg bg-[#0F2238] focus:ring-2 focus:ring-orange-500 outline-none">
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section class="mb-8 bg-[#12273F] p-6 rounded-2xl shadow-lg">
+    <h3 class="text-xl font-semibold mb-4">Skills</h3>
+    <div class="flex flex-wrap gap-3 mb-3">
+      <!-- Example skill badges -->
+      <span class="bg-orange-500 px-3 py-1 rounded-full text-white text-sm">Graphics Designing - Intermediate</span>
+      <span class="bg-orange-500 px-3 py-1 rounded-full text-white text-sm">Python - Beginner</span>
+    </div>
+    <div class="flex flex-col md:flex-row gap-3">
+      <input id="skillName" type="text" placeholder="Skill Name" class="flex-1 px-4 py-2 rounded-lg bg-[#0F2238] focus:ring-2 focus:ring-orange-500 outline-none">
+      <select id="skillLevel" class="px-4 py-2 rounded-lg bg-[#0F2238] focus:ring-2 focus:ring-orange-500 outline-none">
+        <option>Beginner</option>
+        <option>Intermediate</option>
+        <option>Advanced</option>
+      </select>
+      <button id="addSkill" class="px-5 py-2 bg-orange-500 hover:bg-orange-600 rounded-lg font-semibold">Add Skill</button>
+    </div>
+  </section>
+
+  <!-- External Accounts -->
+  <section class="mb-8 bg-[#12273F] p-6 rounded-2xl shadow-lg">
+    <h3 class="text-xl font-semibold mb-4">Linked Accounts</h3>
+    <input id="linkedIn" type="url" placeholder="LinkedIn URL" class="w-full px-4 py-2 mb-3 rounded-lg bg-[#0F2238] focus:ring-2 focus:ring-orange-500 outline-none">
+    <input id="github" type="url" placeholder="GitHub URL" class="w-full px-4 py-2 rounded-lg bg-[#0F2238] focus:ring-2 focus:ring-orange-500 outline-none">
+    <p id="linkError" class="text-red-500 text-xs hidden">Invalid URL!</p>
+  </section>
+
+  <!-- Availability -->
+  <section class="mb-8 bg-[#12273F] p-6 rounded-2xl shadow-lg">
+    <h3 class="text-xl font-semibold mb-4">Availability</h3>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+      <button class="availability-btn px-3 py-2 bg-[#1B335B] rounded-lg">Tue 7 PM</button>
+      <button class="availability-btn px-3 py-2 bg-[#1B335B] rounded-lg">Thu 7 PM</button>
+    </div>
+  </section>
+
+  <!-- Badges -->
+  <section class="mb-8 bg-[#12273F] p-6 rounded-2xl shadow-lg">
+    <h3 class="text-xl font-semibold mb-4">Badges</h3>
+    <div class="flex gap-3 flex-wrap">
+      <span class="bg-orange-500 px-4 py-2 rounded-full text-white text-sm">5 Swaps Completed</span>
+    </div>
+  </section>
+
+  <button id="saveProfile" class="px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-xl font-bold mb-8">Save Profile</button>
+</main>
+
+<script>
+  const addSkillBtn = document.getElementById("addSkill");
+  const skillNameInput = document.getElementById("skillName");
+  const skillLevelInput = document.getElementById("skillLevel");
+
+  addSkillBtn.addEventListener("click", () => {
+    const skill = skillNameInput.value.trim();
+    const level = skillLevelInput.value;
+    if(skill === "") {
+      alert("Please enter skill name.");
+      return;
+    }
+    const badge = document.createElement("span");
+    badge.className = "bg-orange-500 px-3 py-1 rounded-full text-black text-sm";
+    badge.textContent = `${skill} - ${level}`;
+    document.querySelector(".flex.flex-wrap.gap-3.mb-3").appendChild(badge);
+    skillNameInput.value = "";
+  });
+
+  // Profile photo preview
+  const profilePhoto = document.getElementById("profilePhoto");
+  const profilePhotoImg = document.getElementById("profilePhotoImg");
+  const photoError = document.getElementById("photoError");
+  profilePhoto.addEventListener("change", () => {
+    const file = profilePhoto.files[0];
+    if(file && file.size > 2*1024*1024){
+      photoError.classList.remove("hidden");
+      profilePhotoImg.src = "";
+      profilePhotoImg.classList.add("hidden");
+      return;
+    } else {
+      photoError.classList.add("hidden");
+    }
+    const reader = new FileReader();
+    reader.onload = e => {
+      profilePhotoImg.src = e.target.result;
+      profilePhotoImg.classList.remove("hidden");
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Resume validation
+  const resumeUpload = document.getElementById("resumeUpload");
+  const resumeError = document.getElementById("resumeError");
+  resumeUpload.addEventListener("change", () => {
+    const file = resumeUpload.files[0];
+    if(file && file.size > 5*1024*1024){
+      resumeError.classList.remove("hidden");
+    } else {
+      resumeError.classList.add("hidden");
+    }
+  });
+
+  // URL validation
+  const linkedInInput = document.getElementById("linkedIn");
+  const githubInput = document.getElementById("github");
+  const linkError = document.getElementById("linkError");
+
+  function isValidURL(str) {
+    try {
+      new URL(str);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  [linkedInInput, githubInput].forEach(input => {
+    input.addEventListener("blur", () => {
+      if(input.value.trim() && !isValidURL(input.value.trim())){
+        linkError.classList.remove("hidden");
+      } else {
+        linkError.classList.add("hidden");
+      }
+    });
+  });
+
+  // Save profile simulation
+  const saveBtn = document.getElementById("saveProfile");
+  saveBtn.addEventListener("click", () => {
+    alert("Profile saved successfully!");
+  });
+
+  // Availability toggle
+  document.querySelectorAll(".availability-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.classList.toggle("bg-orange-500");
+      btn.classList.toggle("text-black");
+    });
+  });
+</script>
+</body>
+</html>

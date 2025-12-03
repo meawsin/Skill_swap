@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap Reviews & Feedback</title>
+    <!-- Load Inter font for modern, clean typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* --- CSS Variables for Easy Theming --- */
+        :root {
+            --primary-color: #007bff; /* SkillSwap Brand Blue */
+            --accent-color: #ffc107; /* Star Yellow */
+            --background-color: #f8f9fa;
+            --card-background: #ffffff;
+            --text-color: #343a40;
+            --border-color: #e9ecef;
+            --shadow-light: 0 6px 20px rgba(0, 0, 0, 0.08);
+            --font-family: 'Inter', sans-serif;
+        }
+
+        /* --- Base Styles --- */
+        body {
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            color: var(--text-color);
+        }
+
+        h2, h3, h4 {
+            font-weight: 700;
+        }
+
+        /* --- Container Layout --- */
+        .review-feature-container {
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-areas: 
+                "summary form"
+                "reviews reviews";
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        /* --- Base Card Styling --- */
+        .review-summary-card,
+        .new-review-form-card,
+        .existing-reviews-list {
+            background: var(--card-background);
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-light);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .review-summary-card { grid-area: summary; }
+        .new-review-form-card { grid-area: form; }
+        .existing-reviews-list { grid-area: reviews; }
+
+        /* --- Rating Summary --- */
+        .review-summary-card h3 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .rating-display {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+
+        .average-rating {
+            font-size: 3.5em;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-right: 15px;
+            line-height: 1;
+        }
+
+        .review-count {
+            color: #6c757d;
+            font-size: 1em;
+            margin-left: 10px;
+        }
+
+        /* Shared Star Styles (using '★' for simplicity) */
+        .stars-outer, .star-rating-input {
+            display: inline-block;
+            position: relative;
+            font-size: 1.5rem; 
+        }
+
+        .stars-outer {
+            color: var(--border-color); 
+            font-size: 2em;
+        }
+
+        .stars-outer::before { content: '★★★★★'; }
+
+        .stars-inner {
+            position: absolute;
+            top: 0;
+            left: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            color: var(--accent-color); 
+            height: 100%;
+        }
+        .stars-inner::before { content: '★★★★★'; }
+
+        /* Rating Breakdown */
+        .rating-breakdown {
+            margin-top: 20px;
+        }
+        .breakdown-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+        .breakdown-item label {
+            width: 50px;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .progress-bar {
+            flex-grow: 1;
+            height: 10px;
+            background: var(--border-color);
+            border-radius: 5px;
+            margin-right: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        /* --- Review Form --- */
+        .new-review-form-card h3 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input:focus, textarea:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+
+        /* Star Input (Form) */
+        .star-rating-input {
+            direction: rtl;
+            unicode-bidi: bidi-override;
+            font-size: 0; /* Hide default size */
+        }
+        .star-rating-input input { display: none; }
+        .star-rating-input label {
+            font-size: 2.5em; 
+            color: var(--border-color);
+            cursor: pointer;
+            transition: color 0.2s, transform 0.1s;
+            padding: 0 2px;
+            display: inline-block;
+        }
+        .star-rating-input label:hover {
+            transform: scale(1.1);
+        }
+        .star-rating-input label::before { content: '★'; }
+
+        .star-rating-input input:checked ~ label,
+        .star-rating-input label:hover,
+        .star-rating-input label:hover ~ label {
+            color: var(--accent-color);
+        }
+
+        .submit-button {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s, box-shadow 0.2s;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        /* --- Review Item List --- */
+        .existing-reviews-list h3 {
+            margin-top: 0;
+        }
+        
+        .review-item {
+            border-bottom: 1px solid var(--border-color);
+            padding: 20px 0;
+            position: relative;
+        }
+        .review-item:last-child {
+            border-bottom: none;
+        }
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+        }
+        .reviewer-name {
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+        .review-date {
+            color: #6c757d;
+        }
+        .review-item h4 {
+            margin: 0 0 8px 0;
+            font-size: 1.1em;
+        }
+        
+        /* Small star rating in review list */
+        .stars-outer.small {
+            font-size: 1em;
+        }
+
+        /* --- Responsiveness --- */
+        @media (max-width: 768px) {
+            .review-feature-container {
+                grid-template-areas: 
+                    "summary"
+                    "form"
+                    "reviews";
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .average-rating {
+                font-size: 3em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="review-feature-container">
+        <!-- Review Summary Card -->
+        <div class="review-summary-card">
+            <h3>User Reviews for Jane Doe (Web Development)</h3>
+            <div class="rating-display">
+                <span class="average-rating">4.7</span>
+                <div class="stars-outer">
+                    <div class="stars-inner" style="width: 94%;"></div>
+                </div>
+                <span class="review-count">(155 Reviews)</span>
+            </div>
+            
+            <div class="rating-breakdown">
+                <h4>Rating Distribution</h4>
+                <div class="breakdown-item">
+                    <label>5 Stars</label>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 70%;"></div></div>
+                    <span>70%</span>
+                </div>
+                <div class="breakdown-item">
+                    <label>4 Stars</label>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 20%;"></div></div>
+                    <span>20%</span>
+                </div>
+                <div class="breakdown-item">
+                    <label>3 Stars</label>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 5%;"></div></div>
+                    <span>5%</span>
+                </div>
+                <div class="breakdown-item">
+                    <label>2 Stars</label>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 3%;"></div></div>
+                    <span>3%</span>
+                </div>
+                <div class="breakdown-item">
+                    <label>1 Star</label>
+                    <div class="progress-bar"><div class="progress-fill" style="width: 2%;"></div></div>
+                    <span>2%</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- New Review Form Card -->
+        <div class="new-review-form-card">
+            <h3>Leave Your Feedback</h3>
+            <form id="reviewForm">
+                <div class="form-group">
+                    <label for="rating">Your Rating</label>
+                    <div class="star-rating-input">
+                        <!-- Radio buttons for star selection. Direction RTL is used for simple CSS star logic. -->
+                        <input type="radio" id="star5" name="rating" value="5" required/><label for="star5" title="5 stars"></label>
+                        <input type="radio" id="star4" name="rating" value="4" /><label for="star4" title="4 stars"></label>
+                        <input type="radio" id="star3" name="rating" value="3" /><label for="star3" title="3 stars"></label>
+                        <input type="radio" id="star2" name="rating" value="2" /><label for="star2" title="2 stars"></label>
+                        <input type="radio" id="star1" name="rating" value="1" /><label for="star1" title="1 star"></label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="reviewTitle">Title / Headline</label>
+                    <input type="text" id="reviewTitle" placeholder="A brief summary of your experience" required>
+                </div>
+                <div class="form-group">
+                    <label for="reviewBody">Detailed Feedback</label>
+                    <textarea id="reviewBody" rows="5" placeholder="Share specific details about the session, the skill learned, or the interaction..." required></textarea>
+                </div>
+                <button type="submit" class="submit-button">Post Feedback</button>
+            </form>
+        </div>
+
+        <!-- Existing Reviews List -->
+        <div class="existing-reviews-list">
+            <h3>Recent Reviews</h3>
+            
+            <!-- Review Item 1 -->
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="reviewer-name">Alex M.</span>
+                    <div class="stars-outer small">
+                        <div class="stars-inner small" style="width: 100%;"></div>
+                    </div>
+                    <span class="review-date">Reviewed 2 days ago</span>
+                </div>
+                <h4>Truly excellent session on React Hooks!</h4>
+                <p>The session was very insightful and Jane explained complex concepts clearly. Highly recommend her React expertise!</p>
+            </div>
+            
+            <!-- Review Item 2 -->
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="reviewer-name">Chris P.</span>
+                    <div class="stars-outer small">
+                        <div class="stars-inner small" style="width: 80%;"></div>
+                    </div>
+                    <span class="review-date">Reviewed 1 week ago</span>
+                </div>
+                <h4>Solid foundational knowledge transfer.</h4>
+                <p>We covered the basics of CSS Grid effectively. The pacing was a little fast, but the content was high quality.</p>
+            </div>
+
+            <!-- Review Item 3 -->
+            <div class="review-item">
+                <div class="review-header">
+                    <span class="reviewer-name">Dana S.</span>
+                    <div class="stars-outer small">
+                        <div class="stars-inner small" style="width: 40%;"></div>
+                    </div>
+                    <span class="review-date">Reviewed 1 month ago</span>
+                </div>
+                <h4>Good start, but room for improvement on async concepts.</h4>
+                <p>The teaching style was engaging, but the material on Promises and Async/Await was slightly confusing. Overall, a positive experience.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
